@@ -2,14 +2,14 @@ import {connect} from 'mongoose';
 
 const conectarBD = async ()=> {
     return await connect (
-        'mongodb+srv://admin:<password>@gestionproyectos.r0dlt.mongodb.net/Gestionproyectos?retryWrites=true&w=majority'
+        'mongodb+srv://admin:Adminproyectos@gestionproyectos.r0dlt.mongodb.net/Gestionproyectos?retryWrites=true&w=majority'
     )
-    .then(() => {
-        console.log('Conexion exitosa');
+   .then(() => {
+      console.log('Conexion exitosa');
     })
     .catch((e) => {
-        console.error('Error conectando a la base', e)
-    })
+      console.error('Error conectando a la bd', e);
+    });
 };
 
 export default conectarBD;
