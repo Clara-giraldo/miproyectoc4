@@ -31,22 +31,59 @@ const main = async()=>{
     // });
 
 
-//CREAR UN NUEVO USUARIO
-    await UserModel.create({
-        apellido: "cardona",
-        correo: "asdf@asdf.com",
-        identificacion:"25623",
-        nombre: "Ines",
-        rol: Enum_Rol.administrador,
+    //HACER UNA CONSULTA DE UN SOLO USUARIO
 
-        
+    await UserModel.findOne( {identificacion : '123456'})
+    .then((u) =>{
+        console.log('Usuarios encontrado', u);
     })
-    .then((u) => {
-        console.log('usuario creado', u);
-    })
-    .catch((e) =>{
-        console.error('Error creando el usuario', e);
+    .catch((e)=>{
+        console.error('error obteniendo los usuarios', e);
     });
+
+
+
+
+
+//CREAR UN NUEVO USUARIO
+    // await UserModel.create({
+    //     apellido: "cardona",
+    //     correo: "asdf@asdf.com",
+    //     identificacion:"25623",
+    //     nombre: "Ines",
+    //     rol: Enum_Rol.administrador,
+
+    // })
+    // .then((u) => {
+    //     console.log('usuario creado', u);
+    // })
+    // .catch((e) =>{
+    //     console.error('Error creando el usuario', e);
+    // });
+
+
+    // //EDITAR UN USUARIO
+    // await UserModel.findOneAndUpdate(
+    //     { correo: 'das@asdf.con'},
+    //     { nombre : 'Ines',
+    //     apellido: 'Herrera'        ,
+    // })
+    // .then((u) => {
+    //     console.log('usuario actualizado', u);    
+    // })
+    // .catch((e) => {
+    //     console.log('Usuario no se puede actulizar', e)
+    // })
+    
+    // //ELIMINAR UN USUARIO
+
+    // await UserModel.findOneAndDelete({ correo: "das@asasdf.con"})
+    // .then((u) => {
+    //         console.log('usuario eliminado', u);    
+    //     })
+    //     .catch((e) => {
+    //         console.log('Usuario no se puede eliminar', e)
+    //     });
 
 };
 main();
