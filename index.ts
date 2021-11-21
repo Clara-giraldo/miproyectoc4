@@ -4,46 +4,105 @@ import { Enum_EstadoUsuario, Enum_Rol, Enum_TipoObjetivo } from "./models/enums"
 import { ProjectModel } from "./models/project";
 import {ObjectId} from 'mongoose';
 import { objetivoModel } from "./models/objetivos";
-const main = async()=>{
-    await conectarBD ();
 
-        //CRUD PROYECTOS
-
-            //CREAR NUEVO PROYECTO
-    // ProjectModel.create({
-    //     nombre: "Proyecto 3",
-    //     presupuesto: 120,
-    //     fechaInicio: Date.now(),
-    //     fechaFin: new Date('2022/11/10'),
-    //     lider: "6195c5876daa28a18f231225",
-    //     objetivos:['6199a4ec92401eb25dc9419d','6199a6276ab3b11694135e9c']
-    //  })
-    //  .then((u) => {
-    //     console.log('Proyecto creado', u);
-    // })
-    // .catch((e) =>{
-    //     console.error('Error creando el proyecto', e);
-    // });
-
-
-        //CREAR UN OBJETIVO
+    //METODOLOGIA ONE TO MANY #1
+const crearProyectosConObjetivos = async () =>{
+    // CREAR UN PROYECTO CON EL USUARIO Y LOS OBJETIVOS
+    const usuarioInicial = await UserModel.create({
+        nombre: 'Clara',
+        apellido: 'Giraldo',
+        correo: 'cigc@aso.com',
+        identificacion: '1234',
+        rol: Enum_Rol.ADMINISTRADOR,
+        estado: Enum_EstadoUsuario.AUTORIZADO,
+      });
     
-    // const objet = await objetivoModel.create({
-    //     descripcion: "Este es el objetivo Especifico",
-    //     tipo: Enum_TipoObjetivo.ESPECIFICO,
-    // });
+      const proyectoCreado = await ProjectModel.create({
+        nombre: 'Proyecto Mision TIC',
+        fechaInicio: new Date('2021/12/24'),
+        fechaFin: new Date('2022/12/24'),
+        presupuesto: 120000,
+        lider: usuarioInicial._id,
+      }); 
+      
+      const objetivoGeneral = await objetivoModel.create({
+          descripcion: 'Objetivo general',
+          tipo: Enum_TipoObjetivo.GENERAL,
+          proyecto: proyectoCreado._id,
+      });
 
-    
-// //OTRA FORMA DE OBJETIVOS CON POPULATE
-        const proyecto = await ProjectModel.find({
-            nombre: 'Proyecto 3'
-        }).populate('objetivos');
-        console.log('el proyecto es ', JSON.stringify(proyecto) );
+      const objetivoEspecifico1 = await objetivoModel.create({
+        descripcion: 'Objetivo Especifico 1',
+        tipo: Enum_TipoObjetivo.ESPECIFICO,
+        proyecto: proyectoCreado._id,
+    });
+    const objetivoEspecifico2 = await objetivoModel.create({
+        descripcion: 'Objetivo Especifico 1',
+        tipo: Enum_TipoObjetivo.ESPECIFICO,
+        proyecto: proyectoCreado._id,
+    });
+
+
 
 
 
 };
+
+// //CONSULTAR UN PROYECTO CON LOS OBJETIVOS
+
+// const proyecto = await ProjectModel.findOne({_id:'6199bd25ff6d15be803d31a5'});
+
+// console.log('el proyecto encontrado es: ', proyecto);
+
+// const objetivos = await objetivoModel.find({project: '6199bd25ff6d15be803d31a5'})
+
+// console.log('los objetivos encontrads son: ', objetivos);
+
+// const ProyectosConObjetivos = {...proyecto, objetivos: objetivos};
+
+// console.log('el proyecto con objetivos: ', ProyectosConObjetivos);
+
+const main = async()=>{
+    await conectarBD ();
+    //METODOLOGIA ONE TO MANY #2
+    
+    
+};
 main();
+
+//CRUD PROYECTOS
+
+    //CREAR NUEVO PROYECTO
+// ProjectModel.create({
+//     nombre: "Proyecto 3",
+//     presupuesto: 120,
+//     fechaInicio: Date.now(),
+//     fechaFin: new Date('2022/11/10'),
+//     lider: "6195c5876daa28a18f231225",
+//     objetivos:['6199a4ec92401eb25dc9419d','6199a6276ab3b11694135e9c']
+//  })
+//  .then((u) => {
+//     console.log('Proyecto creado', u);
+// })
+// .catch((e) =>{
+//     console.error('Error creando el proyecto', e);
+// });
+
+
+//CREAR UN OBJETIVO
+
+// const objet = await objetivoModel.create({
+//     descripcion: "Este es el objetivo Especifico",
+//     tipo: Enum_TipoObjetivo.ESPECIFICO,
+// });
+
+
+// //OTRA FORMA DE OBJETIVOS CON POPULATE
+// const proyecto = await ProjectModel.find({
+//     nombre: 'Proyecto 3'
+// }).populate('objetivos');
+// console.log('el proyecto es ', JSON.stringify(proyecto) );
+
 //         //CONSULTAR UN PROYECTO
 // const proyecto = await ProjectModel.find({
 //     nombre: 'Proyecto 1'
@@ -60,16 +119,6 @@ main();
         // }).populate('lider');
         // console.log('el proyecto es ', proyecto);
 
-//CREAR UN NUEVO USUARIO
-  // await UserModel.create({
-  //     nombre: "Ines",
-  //     identificacion:"4325845696",
-  //     apellido: "cardona",
-  //     correo: "aclara@gfdda.com",
-  //     rol: Enum_Rol.ADMINISTRADOR,
-      
-
-  // })
   // .then((u) => {
   //     console.log('usuario creado', u);
   // })
