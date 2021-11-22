@@ -41,33 +41,82 @@ const crearProyectosConObjetivos = async () =>{
         tipo: Enum_TipoObjetivo.ESPECIFICO,
         proyecto: proyectoCreado._id,
     });
-
-
-
-
-
+    
+    
+    
+    
+    
 };
 
 // //CONSULTAR UN PROYECTO CON LOS OBJETIVOS
+const consultarProyectosConObjetivos = async () =>{
+    const proyecto = await ProjectModel.findOne({_id:'6199bd25ff6d15be803d31a5'});
 
-// const proyecto = await ProjectModel.findOne({_id:'6199bd25ff6d15be803d31a5'});
+console.log('el proyecto encontrado es: ', proyecto);
 
-// console.log('el proyecto encontrado es: ', proyecto);
+const objetivos = await objetivoModel.find({project: '6199bd25ff6d15be803d31a5'})
 
-// const objetivos = await objetivoModel.find({project: '6199bd25ff6d15be803d31a5'})
+console.log('los objetivos encontrads son: ', objetivos);
 
-// console.log('los objetivos encontrads son: ', objetivos);
+const ProyectosConObjetivos = {...proyecto, objetivos: objetivos};
 
-// const ProyectosConObjetivos = {...proyecto, objetivos: objetivos};
+console.log('el proyecto con objetivos: ', ProyectosConObjetivos);
+}
 
-// console.log('el proyecto con objetivos: ', ProyectosConObjetivos);
+//METODOLOGIA ONE TO MANY #2
+// CREAR UN PROYECTO CON EL USUARIO Y LOS OBJETIVOS
+const crearObjetivosconProyectos = async () =>{
+      const usuarioInicial = await UserModel.create({
+        nombre: 'Clara',
+        apellido: 'Giraldo',
+        correo: 'cigc@aso.com',
+        identificacion: '1234',
+        rol: Enum_Rol.ADMINISTRADOR,
+        estado: Enum_EstadoUsuario.AUTORIZADO,
+  });
 
+
+    const objetivoGeneral = await objetivoModel.create({
+        descripcion: 'Objetivo general',
+        tipo: Enum_TipoObjetivo.GENERAL,
+        });
+
+    const objetivoEspecifico1 = await objetivoModel.create({
+        descripcion: 'Objetivo Especifico 1',
+        tipo: Enum_TipoObjetivo.ESPECIFICO,
+        
+    });
+    const objetivoEspecifico2 = await objetivoModel.create({
+        descripcion: 'Objetivo Especifico 1',
+        tipo: Enum_TipoObjetivo.ESPECIFICO,
+        
+    });
+
+
+    const proyectoCreado = await ProjectModel.create({
+        nombre: 'Proyecto Mision TIC',
+        fechaInicio: new Date('2021/12/24'),
+        fechaFin: new Date('2022/12/24'),
+        presupuesto: 120000,
+        lider: usuarioInicial._id,
+        objetivos:[
+            objetivoGeneral._id, 
+            objetivoEspecifico1._id, 
+            objetivoEspecifico2._id],
+    }); 
+}
 const main = async()=>{
     await conectarBD ();
-    //METODOLOGIA ONE TO MANY #2
+    //METODOLOGIA ONE TO MANY #3
+    
+    const proyecto = await ProjectModel.find({id: '619ad355870cb99b7e268b07'}).populate('objetivos');
+
+    console.log('Proyecto encontrado ', JSON.stringify( proyecto));
+        
+    }
     
     
-};
+;
 main();
 
 //CRUD PROYECTOS
