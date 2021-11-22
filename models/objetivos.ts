@@ -8,8 +8,7 @@ interface Objetivo{
     descripcion: string;
     tipo: Enum_TipoObjetivo;
     proyecto: Schema.Types.ObjectId;
-    objetivos: Schema.Types.ObjectId;
-}
+    }
 
 const objectivoSchema = new Schema<Objetivo>({
     descripcion: {
@@ -21,11 +20,7 @@ const objectivoSchema = new Schema<Objetivo>({
         enum: Enum_TipoObjetivo,
         required: true,
     },
-    // proyecto: {
-    //     type: Schema.Types.ObjectId,
-    //     ref: ProjectModel,
-    // },
-   
+      
 });
 
 const objetivoModel = model("Objetivo", objectivoSchema);
