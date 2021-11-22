@@ -6,7 +6,7 @@ import {ObjectId} from 'mongoose';
 import { objetivoModel } from "./models/objetivos";
 
     //METODOLOGIA ONE TO MANY #1
-const crearProyectosConObjetivos = async () =>{
+const crearProyectosConObjetivos1 = async () =>{
     // CREAR UN PROYECTO CON EL USUARIO Y LOS OBJETIVOS
     const usuarioInicial = await UserModel.create({
         nombre: 'Clara',
@@ -49,7 +49,7 @@ const crearProyectosConObjetivos = async () =>{
 };
 
 // //CONSULTAR UN PROYECTO CON LOS OBJETIVOS
-const consultarProyectosConObjetivos = async () =>{
+const consultarProyectosConObjetivos1 = async () =>{
     const proyecto = await ProjectModel.findOne({_id:'6199bd25ff6d15be803d31a5'});
 
 console.log('el proyecto encontrado es: ', proyecto);
@@ -65,7 +65,7 @@ console.log('el proyecto con objetivos: ', ProyectosConObjetivos);
 
 //METODOLOGIA ONE TO MANY #2
 // CREAR UN PROYECTO CON EL USUARIO Y LOS OBJETIVOS
-const crearObjetivosconProyectos = async () =>{
+const crearObjetivosconProyectos2 = async () =>{
       const usuarioInicial = await UserModel.create({
         nombre: 'Clara',
         apellido: 'Giraldo',
@@ -105,18 +105,47 @@ const crearObjetivosconProyectos = async () =>{
             objetivoEspecifico2._id],
     }); 
 }
+        //CONSULTA CON POPULATE
+const consultarProyectosConObjetivos2 = async () =>{
+    const proyecto = await ProjectModel.find({id: '619ad355870cb99b7e268b07'}).populate('objetivos');
+    console.log('Proyecto encontrado ', JSON.stringify( proyecto));
+}
+        
+        //METODOLOGIA ONE TO MANY #3
+const crearProyectosConObjetivos3 = async () =>{
+      const usuarioInicial = await UserModel.create({
+        nombre: 'Clara',
+        apellido: 'Giraldo',
+        correo: 'cigc@aso.com',
+        identificacion: '1234',
+        rol: Enum_Rol.ADMINISTRADOR,
+        estado: Enum_EstadoUsuario.AUTORIZADO,
+  });
+    const proyectoCreado = await ProjectModel.create({
+        nombre: 'Proyecto Mision TIC',
+        fechaInicio: new Date('2021/12/24'),
+        fechaFin: new Date('2022/12/24'),
+        presupuesto: 120000,
+        lider: usuarioInicial._id,
+        objetivos:[
+         {descripcion: 'Objerivo General',tipo: Enum_TipoObjetivo.GENERAL},
+         {descripcion: 'Objerivo Especifico 1',tipo: Enum_TipoObjetivo.ESPECIFICO},
+         {descripcion: 'Objerivo Especifico 2',tipo: Enum_TipoObjetivo.ESPECIFICO},
+        ],
+    });
+}
+
+const consultarProyectosConObjetivos3 = async () =>{
+    const proyectoCreado = await ProjectModel.find({id: '619ae5d598d3b14530b48987'});
+    console.log('proyecto', proyectoCreado);
+    
+}
 const main = async()=>{
     await conectarBD ();
-    //METODOLOGIA ONE TO MANY #3
+  
+   
     
-    const proyecto = await ProjectModel.find({id: '619ad355870cb99b7e268b07'}).populate('objetivos');
-
-    console.log('Proyecto encontrado ', JSON.stringify( proyecto));
-        
-    }
-    
-    
-;
+};
 main();
 
 //CRUD PROYECTOS
@@ -259,4 +288,4 @@ main();
     //     })
     //     .catch((e) => {
     //         console.log('Usuario no se puede eliminar', e)
-    //     });
+    //     });}
