@@ -1,11 +1,12 @@
-const resolvers ={
+const resolvers = {
+
     Query:{
-        usuarios[{
-            nombre: 'Clara',
-        }]
+        Usuarios: async ( parent, arg) =>{
+            const usuarios =[
 
-    }
-    Mutation:{
-
-    }
-}
+            ];
+        return usuarios;
+        },
+    },
+};
+export {resolvers};
