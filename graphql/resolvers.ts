@@ -1,7 +1,10 @@
+import { Enum_EstadoProyecto } from "../models/enums";
+import { ProjectModel } from "../models/project";
 import { UserModel } from "../models/user";
 
 const resolvers = {
 
+    //SE CREAN LO QUERY PARA TODOS
     Query:{
         Usuarios: async ( parent, arg) =>{
             const usuarios = await UserModel.find();
@@ -16,6 +19,8 @@ const resolvers = {
             return proyectos;
           },
     },
+
+    //SE CREAN LAS MUTACIONES
     Mutation: {
         crearUsuario: async (parent, args)=>{
             const usuariocreado = await UserModel.create({
@@ -54,8 +59,20 @@ const resolvers = {
         const usuarioEliminado = await UserModel.findOneAndDelete({ correo: args.correo });
         return usuarioEliminado;
       }
+        },
+        crearProyecto: async (parent, args) => {
+                        const proyectoCreado = await ProjectModel.create({
+              nombre: args.nombre,
+              estado: args.estado,
+              fase: args.fase,
+              fechaInicio: args.fechaInicio,
+              fechaFin: args.fechaFin,
+              presupuesto: args.presupuesto,
+              lider: args.lider,
+              objetivos: args.objetivos,
+            });
+            return proyectoCreado;
+        },
     },
-    },
-    
 };
 export {resolvers};

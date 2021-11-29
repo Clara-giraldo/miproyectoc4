@@ -1,8 +1,9 @@
 import { gql } from 'apollo-server-express';
 
 const typeDefs = gql`
-  
-  enum enum_EstadoUsuario{
+  scalar Date
+
+  enum Enum_EstadoUsuario{
     PENDIENTE
     AUTORIZADO
     NO_AUTORIZADO
@@ -13,6 +14,22 @@ const typeDefs = gql`
     LIDER
     ADMINISTRADOR
   }
+  enum Enum_EstadoProyecto {
+    ACTIVO
+    INACTIVO
+  }
+
+  enum Enum_FaseProyecto {
+    INICIADO
+    DESARROLLO
+    TERMINADO
+    NULO
+  }
+
+  enum Enum_TipoObjetivo {
+    GENERAL
+    ESPECIFICO
+  }
 
   type Usuario {
     _id: ID!
@@ -20,11 +37,37 @@ const typeDefs = gql`
     apellido: String!
     identificacion: String!
     correo: String!
-    estado: enum_EstadoUsuario
     rol: Enum_Rol!
-}
+    estado: Enum_EstadoUsuario
+  }
+
+  type Objetivo {
+    _id: ID!
+    descripcion: String!
+    tipo: Enum_TipoObjetivo!
+  }
+
+  input crearObjetivo {
+    descripcion: String!
+    tipo: Enum_TipoObjetivo!
+  }
+
+  type Proyecto {
+    _id: ID!
+    nombre: String!
+    presupuesto: Float!
+    fechaInicio: Date!
+    fechaFin: Date!
+    estado: Enum_EstadoProyecto!
+    fase: Enum_FaseProyecto!
+    lider: Usuario!
+    objetivos: [Objetivo]
+  }
+
   type Query {
     Usuarios: [Usuario]
+    Usuario(_id: String!): Usuario
+    Proyectos: [Proyecto]
   }
 
   type Mutation {
@@ -33,7 +76,7 @@ const typeDefs = gql`
       apellido: String!
       identificacion: String!
       correo: String!
-      estado: enum_EstadoUsuario
+      estado: Enum_EstadoUsuario
       rol: Enum_Rol!
     ):Usuario
 
@@ -43,19 +86,24 @@ const typeDefs = gql`
       apellido: String!
       identificacion: String!
       correo: String!
-      estado: enum_EstadoUsuario
+      estado: Enum_EstadoUsuario
       rol: Enum_Rol!
     ):Usuario
 
+    eliminarUsuario(_id: String, correo: String): Usuario
 
-
-
-
-
-
-    eliminarUsuario(
-      _id: String!): Usuario
+    crearProyecto(
+      nombre: String!
+      presupuesto: Float!
+      fechaInicio: Date!
+      fechaFin: Date!
+      estado: Enum_EstadoProyecto!
+      fase: Enum_FaseProyecto!
+      lider: String!
+      objetivos: [crearObjetivo]
+    ): Proyecto
   }
+    
 `;
 
 export { typeDefs };
