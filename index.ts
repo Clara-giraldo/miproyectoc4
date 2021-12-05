@@ -23,7 +23,7 @@ app.listen({ port: process.env.PORT || 4000 }, async () => {
   await conectarBD();
   await server.start();
 
-  server.applyMiddleware({app});
+  server.applyMiddleware({ app });
 
   console.log('servidor listo');
 });

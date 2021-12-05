@@ -1,19 +1,6 @@
 import { gql } from 'apollo-server-express';
 
-const tiposUsuarios = gql`
-  scalar Date
-
-  enum Enum_EstadoUsuario{
-    PENDIENTE
-    AUTORIZADO
-    NO_AUTORIZADO
-  }
-
-  enum Enum_Rol {
-    ESTUDIANTE
-    LIDER
-    ADMINISTRADOR
-  }
+const tiposUsuario = gql`
   type Usuario {
     _id: ID!
     nombre: String!
@@ -24,15 +11,20 @@ const tiposUsuarios = gql`
     estado: Enum_EstadoUsuario
   }
 
+  type Query {
+    Usuarios: [Usuario]
+    Usuario(_id: String!): Usuario
+  }
+
   type Mutation {
     crearUsuario(
       nombre: String!
       apellido: String!
       identificacion: String!
       correo: String!
-      estado: Enum_EstadoUsuario
       rol: Enum_Rol!
-    ):Usuario
+      estado: Enum_EstadoUsuario
+    ): Usuario
 
     editarUsuario(
       _id: String!
@@ -40,11 +32,12 @@ const tiposUsuarios = gql`
       apellido: String!
       identificacion: String!
       correo: String!
-      estado: Enum_EstadoUsuario
       rol: Enum_Rol!
-    ):Usuario
+      estado: Enum_EstadoUsuario
+    ): Usuario
 
     eliminarUsuario(_id: String, correo: String): Usuario
+  }
 `;
 
-export { tiposUsuarios };
+export { tiposUsuario };
