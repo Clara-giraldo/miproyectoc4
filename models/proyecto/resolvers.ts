@@ -1,5 +1,5 @@
 
-import { ProjectModel } from "./proyectos";
+import { modeloProyecto } from "./proyectos";
 
 
 const resolversProyecto = {
@@ -7,7 +7,7 @@ const resolversProyecto = {
     //SE CREAN LO QUERY PARA TODOS
     Query:{
         Proyectos: async (parent, args) => {
-            const proyectos = await ProjectModel.find().populate('lider');
+            const proyectos = await modeloProyecto.find().populate('lider');
             return proyectos;
         },
     },
@@ -15,7 +15,7 @@ const resolversProyecto = {
     //SE CREAN LAS MUTACIONES
     Mutation: {
         crearProyecto: async (parent, args) => {
-            const proyectoCreado = await ProjectModel.create({
+            const proyectoCreado = await modeloProyecto.create({
               nombre: args.nombre,
               estado: args.estado,
               fase: args.fase,

@@ -1,7 +1,8 @@
+import mongoose from 'mongoose';
 import { Schema, model } from 'mongoose';
-import { Enum_EstadoProyecto, Enum_FaseProyecto, Enum_TipoObjetivo } from '../enums/enums';
-import { ObjectiveModel } from '../objectivo';
-import { UserModel } from '../usuario/usuario';
+import {Enum_TipoObjetivo } from './enums/enums';
+
+
 
 
 
@@ -24,6 +25,6 @@ const objectivoSchema = new Schema<Objetivo>({
       
 });
 
-const objetivoModel = model("Objetivo", objectivoSchema);
+const modeloObjetivo = model("Objetivo", objectivoSchema);
 
-export {objetivoModel};
+export {modeloObjetivo};

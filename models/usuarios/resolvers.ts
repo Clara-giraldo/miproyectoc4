@@ -30,31 +30,34 @@ const resolversUsuario = {
                 usuariocreado.estado = args.estado;
             }
             return usuariocreado;
-            
-            console.log('Ejecuentado la mutacion')
+          
         },
 
-        editarUsuario: async(parent, args) =>{
-            const usuarioEditado = await UserModel.findByIdAndUpdate(args._id,{
+        editarUsuario: async (parent, args) => {
+            const usuarioEditado = await UserModel.findByIdAndUpdate(
+              args._id,
+              {
                 nombre: args.nombre,
                 apellido: args.apellido,
                 identificacion: args.identificacion,
                 correo: args.correo,
-                rol: args.rol,
-                estado:args.estado,
-            });
+                estado: args.estado,
+              },
+              { new: true }
+            );
+      
             return usuarioEditado;
-        },
+          },
 
        eliminarUsuario: async (parent, args) => {
-      if (Object.keys(args).includes('_id')) {
-        const usuarioEliminado = await UserModel.findOneAndDelete({ _id: args._id });
-        return usuarioEliminado;
-      } else if (Object.keys(args).includes('correo')) {
-        const usuarioEliminado = await UserModel.findOneAndDelete({ correo: args.correo });
-        return usuarioEliminado;
-      }
-        },
+        if (Object.keys(args).includes('_id')) {
+            const usuarioEliminado = await UserModel.findOneAndDelete({ _id: args._id });
+            return usuarioEliminado;
+        } else if (Object.keys(args).includes('correo')) {
+            const usuarioEliminado = await UserModel.findOneAndDelete({ correo: args.correo });
+            return usuarioEliminado;
+        }
+       },
         
     },
 };
