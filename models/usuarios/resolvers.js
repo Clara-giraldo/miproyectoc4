@@ -1,19 +1,19 @@
-import { ModeloUsuarios } from './usuarios';
+import { ModeloUsuario } from './usuarios.js';
 
 const resolversUsuario = {
   Query: {
     Usuarios: async (parent, args) => {
-      const usuarios = await ModeloUsuarios.find();
+      const usuarios = await ModeloUsuario.find();
       return usuarios;
     },
     Usuario: async (parent, args) => {
-      const usuario = await ModeloUsuarios.findOne({ _id: args._id });
+      const usuario = await ModeloUsuario.findOne({ _id: args._id });
       return usuario;
     },
   },
   Mutation: {
     crearUsuario: async (parent, args) => {
-      const usuarioCreado = await ModeloUsuarios.create({
+      const usuarioCreado = await ModeloUsuario.create({
         nombre: args.nombre,
         apellido: args.apellido,
         identificacion: args.identificacion,
@@ -28,7 +28,7 @@ const resolversUsuario = {
       return usuarioCreado;
     },
     editarUsuario: async (parent, args) => {
-      const usuarioEditado = await ModeloUsuarios.findByIdAndUpdate(args._id, {
+      const usuarioEditado = await ModeloUsuario.findByIdAndUpdate(args._id, {
         nombre: args.nombre,
         apellido: args.apellido,
         identificacion: args.identificacion,
@@ -41,10 +41,10 @@ const resolversUsuario = {
     },
     eliminarUsuario: async (parent, args) => {
       if (Object.keys(args).includes('_id')) {
-        const usuarioEliminado = await ModeloUsuarios.findOneAndDelete({ _id: args._id });
+        const usuarioEliminado = await ModeloUsuario.findOneAndDelete({ _id: args._id });
         return usuarioEliminado;
       } else if (Object.keys(args).includes('correo')) {
-        const usuarioEliminado = await ModeloUsuarios.findOneAndDelete({ correo: args.correo });
+        const usuarioEliminado = await ModeloUsuario.findOneAndDelete({ correo: args.correo });
         return usuarioEliminado;
       }
     },

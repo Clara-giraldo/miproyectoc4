@@ -1,15 +1,15 @@
-import { ModeloProyectos } from './proyectos';
+import { ModeloProyecto } from './proyectos.js';
 
 const resolversProyecto = {
   Query: {
     Proyectos: async (parent, args) => {
-      const proyectos = await ModeloProyectos.find().populate('lider');
+      const proyectos = await ModeloProyecto.find().populate('avances').populate('inscripciones');
       return proyectos;
     },
   },
   Mutation: {
     crearProyecto: async (parent, args) => {
-      const proyectoCreado = await ModeloProyectos.create({
+      const proyectoCreado = await ModeloProyecto.create({
         nombre: args.nombre,
         estado: args.estado,
         fase: args.fase,
